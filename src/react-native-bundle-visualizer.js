@@ -36,13 +36,15 @@ const baseDir = os.tmpdir() + '/react-native-bundle-visualizer';
 const tmpDir = baseDir + '/' + getAppName();
 const entryFile = argv['entry-file'] || getEntryPoint();
 const platform = argv.platform || 'ios';
+const exploreName = argv.['explore-name'] || 'explorer';
+const config = argv.config || 'metro.config.js';
 const dev = argv.dev || false;
 const verbose = argv.verbose || false;
 const resetCache = argv['reset-cache'] || false;
 const bundleOutput =
-  argv['bundle-output'] || tmpDir + '/' + platform + '.bundle';
+  argv['bundle-output'] || tmpDir + '/' + platform + exploreName + '.bundle';
 const bundleOutputSourceMap = bundleOutput + '.map';
-const bundleOutputExplorerHTML = tmpDir + '/output/explorer.html';
+const bundleOutputExplorerHTML = tmpDir + '/output/' + exploreName + (Math.random() * 1000000).toFixed(0) + '.html';
 
 // Make sure the temp dir exists
 if (!fs.existsSync(baseDir)) fs.mkdirSync(baseDir);
@@ -68,7 +70,9 @@ const commands = [
   '--bundle-output',
   bundleOutput,
   '--sourcemap-output',
-  bundleOutputSourceMap
+  bundleOutputSourceMap,
+  '--config',
+  config
 ];
 if (resetCache) {
   commands.push('--reset-cache');
